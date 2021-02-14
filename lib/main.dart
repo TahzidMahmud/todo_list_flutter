@@ -24,9 +24,9 @@ void main() {
           centerTitle: true,
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.red[300],
-          
-          child:Icons(Icons.add),
+          onPressed: (){},
+          child: Icon(Icons.add),
+          backgroundColor: Colors.green,
         ),
         body: Column(
           children: <Widget>[
