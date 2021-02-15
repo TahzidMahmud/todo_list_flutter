@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:flutter_app_todo_list/static_pages/loding_spinner.dart';
+import 'package:flutter_app_todo_list/static_pages/create_todo.dart';
+
 import 'dart:convert';
 import './todo.dart';
 
@@ -9,6 +11,8 @@ void main() {
     routes: {
       '/': (context)=>TodoList(),
       '/loading':(context)=>LoadingSpinner(),
+      '/create':(context)=>CreateTodoForm(),
+
     },
     initialRoute: '/',
   ));}
@@ -53,7 +57,9 @@ void main() {
           centerTitle: true,
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: (){},
+          onPressed: (){
+            Navigator.pushNamed(context, '/create');
+          },
           child: Icon(Icons.add),
           backgroundColor: Colors.green,
         ),
