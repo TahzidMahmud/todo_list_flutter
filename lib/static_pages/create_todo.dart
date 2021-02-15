@@ -23,6 +23,11 @@ class _CreateTodoFormState extends State<CreateTodoForm> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Put Title',
+                      hintText: 'Wake up ...',
+
+                    ),
                     validator: (value){
                         if(value.isEmpty){
                           return "please enter text";
