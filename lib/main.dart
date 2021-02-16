@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:flutter_app_todo_list/static_pages/loding_spinner.dart';
 import 'package:flutter_app_todo_list/static_pages/create_todo.dart';
+import 'package:flutter_app_todo_list/static_pages/single_todo.dart';
+
+
 
 import 'dart:convert';
 import './todo.dart';
@@ -12,6 +15,7 @@ void main() {
       '/': (context)=>TodoList(),
       '/loading':(context)=>LoadingSpinner(),
       '/create':(context)=>CreateTodoForm(),
+      '/todo':(context)=>SingleTodo()
 
     },
     initialRoute: '/',
@@ -24,8 +28,10 @@ void main() {
 
   class _TodoListState extends State<TodoList> {
     List todos;
+    Map todo;
 
-  @override
+
+    @override
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -38,7 +44,6 @@ void main() {
     List data=jsonDecode(res.body);
     setState(() {
       todos=data;
-
     });
 
 
@@ -69,22 +74,34 @@ void main() {
           children: ( todos!=null?todos.map((todo){
            return Padding(
              padding: const EdgeInsets.fromLTRB(8,0,8, 10),
-             child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Row(
-                    children: [
-                      Flexible(
-                        child: Text(
-                          '${todo['title']}',
-                          overflow: TextOverflow.visible,
+             child: GestureDetector(
+               onDoubleTap: (){
+
+                 String url="https://jsonplaceholder.typicode.com/todos?id=${todo['id']}";
+                 getSingle(url);
+                 Navigator.pushNamed(context, '/todo',arguments: todo);
+
+                 // print('changed');
+
+               },
+               child: Card(
+                 
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Row(
+                      children: [
+                        Flexible(
+                          child: Text(
+                            '${todo['title']}',
+                            overflow: TextOverflow.visible,
+                          ),
                         ),
-                      ),
-                      IconButton(onPressed: (){}, icon: Icon(Icons.auto_delete)),
-                    ],
+                        IconButton(onPressed: (){}, icon: Icon(Icons.auto_delete)),
+                      ],
+                    ),
                   ),
                 ),
-              ),
+             ),
            );
 
           }).toList():[
@@ -93,5 +110,17 @@ void main() {
         ),
       );
     }
+    Future getSingle(url)async{
+      Response res = await get(url);
+      List data=jsonDecode(res.body);
+
+      setState(() {
+        todo ={
+          'title':data[0]['title'],
+         'body':data[0]['body']
+        };
+      });
+    }
+
   }
 
