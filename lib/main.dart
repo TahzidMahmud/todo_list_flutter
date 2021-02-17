@@ -3,6 +3,8 @@ import 'package:http/http.dart';
 import 'package:flutter_app_todo_list/static_pages/loding_spinner.dart';
 import 'package:flutter_app_todo_list/static_pages/create_todo.dart';
 import 'package:flutter_app_todo_list/static_pages/single_todo.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
 
 
 
@@ -96,7 +98,32 @@ void main() {
                             overflow: TextOverflow.visible,
                           ),
                         ),
-                        IconButton(onPressed: (){}, icon: Icon(Icons.auto_delete)),
+                        IconButton(onPressed: (){
+                          print("hit");
+                          var del;
+                          del=todo;
+                          todos.remove(todo);
+                          setState(() {
+                            todos=todos;
+                            Alert(
+                              context: context,
+                              type: AlertType.success,
+                              title: "Deleted Successfully...!",
+                              desc: "title:${del['title']}",
+                              buttons: [
+                                DialogButton(
+                                  child: Text(
+                                    "Ok",
+                                    style: TextStyle(color: Colors.white, fontSize: 20),
+                                  ),
+                                  onPressed: () => Navigator.pop(context),
+                                  width: 120,
+                                )
+                              ],
+                            ).show();
+
+                          });
+                        }, icon: Icon(Icons.auto_delete)),
                       ],
                     ),
                   ),
